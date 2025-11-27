@@ -1,30 +1,28 @@
-import http from "http";
+// 🐟 Fish AI Secure Server (Railway)
 
-const PORT = process.env.PORT || 3000;
+// IMPORTS
+const express = require("express");
+const app = express();
 
-const server = http.createServer((req, res) => {
-  if (req.method === "POST" && req.url === "/fish") {
-    let body = "";
+// MIDDLEWARE
+app.use(express.json());
 
-    req.on("data", chunk => {
-      body += chunk.toString();
-    });
-
-    req.on("end", () => {
-      console.log("🐟 Mensaje recibido:", body);
-
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({
-        success: true,
-        reply: "Fish AI está viva 🐟🔥"
-      }));
-    });
-  } else {
-    res.writeHead(200);
-    res.end("Fish AI Server OK");
-  }
+// ROOT (IMPORTANTE PARA RAILWAY)
+app.get("/", (req, res) => {
+  res.send("🐟 Fish AI Server ONLINE");
 });
 
-server.listen(PORT, () => {
-  console.log("🐟 Fish AI Server ON en puerto", PORT);
+// ENDPOINT PRINCIPAL (ROBLOX LLAMA ACÁ)
+app.post("/fish", (req, res) => {
+  // Acá después va Cohere
+  res.json({
+    ok: true,
+    message: "Fish AI endpoint activo"
+  });
+});
+
+// PUERTO (CRÍTICO)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("🐟 Fish AI escuchando en puerto", PORT);
 });
